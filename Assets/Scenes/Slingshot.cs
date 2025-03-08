@@ -1,13 +1,16 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Slingshot : MonoBehaviour
 {
     public GameObject launcher;
 
     private bool isAiming;
     private float sphereRadius;
+    private int shots = 0;
+
     public GameObject prefabBall;
     public GameObject activeBall;
+    public Text scoreText;
     public float speedMultipler = 10.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,6 +19,7 @@ public class Slingshot : MonoBehaviour
         isAiming = false;
         sphereRadius = this.GetComponent<SphereCollider>().radius;
         activeBall = null;
+        scoreText.text = "SHOTS Fired: " + shots;
     }
 
     void OnMouseEnter(){
@@ -53,6 +57,8 @@ public class Slingshot : MonoBehaviour
             
             GameObject cam = GameObject.Find("Main Camera");
             cam.GetComponent<FollowTarget>().targetObject = activeBall;
+            shots++;
+            scoreText.text = "SHOTS Fired: " + shots;
         }
     }
 }
