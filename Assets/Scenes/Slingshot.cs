@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class Slingshot : MonoBehaviour
 {
     public GameObject launcher;
 
     private bool isAiming;
     private float sphereRadius;
-    private int shots = 0;
-
+    public int shots = 0;
     public GameObject prefabBall;
     public GameObject activeBall;
     public Text scoreText;
@@ -19,7 +19,7 @@ public class Slingshot : MonoBehaviour
         isAiming = false;
         sphereRadius = this.GetComponent<SphereCollider>().radius;
         activeBall = null;
-        scoreText.text = "SHOTS Fired: " + shots;
+        scoreText.text = shots + "/5 remaining";
     }
 
     void OnMouseEnter(){
@@ -29,10 +29,12 @@ public class Slingshot : MonoBehaviour
         launcher.SetActive(false);
     }
     void OnMouseDown(){
+        if(shots < 5){
         isAiming = true;
         activeBall = Instantiate(prefabBall) as GameObject;
         activeBall.transform.position = launcher.transform.position;
         activeBall.GetComponent<Rigidbody>().isKinematic = true;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -58,7 +60,7 @@ public class Slingshot : MonoBehaviour
             GameObject cam = GameObject.Find("Main Camera");
             cam.GetComponent<FollowTarget>().targetObject = activeBall;
             shots++;
-            scoreText.text = "SHOTS Fired: " + shots;
+            scoreText.text = shots + "/5 remaining";
         }
     }
 }
